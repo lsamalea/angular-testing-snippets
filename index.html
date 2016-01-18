@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html ng-app="app">
+	<head>
+  		<script src="lib/angular.min.js"></script>
+      
+        <!-- include source files here... -->  
+  		<script src="src/controllers.module.js"></script>
+        <script src="src/directives.modules.js"></script>  
+        <script src="src/app.module.js"></script>
+        
+        <script src="src/controllers/controllerA.js"></script>
+        
+        <script src="src/directives/directiveA.js"></script>
+        <script src="src/directives/directiveB.js"></script>  
+	</head>
+	<body>
+		<div ng-controller="controllerA">
+            Enter title: <input type="text" ng-model="title"><br>
+            title: <span ng-bind="title"></span>
+		</div>
+        <directiveB></directiveB>
+	</body>
+</html>
