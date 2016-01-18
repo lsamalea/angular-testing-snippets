@@ -73,8 +73,6 @@ describe('directiveA', function () {
         it('should add a new item after submit', function () {    
             
             var element = linkTemplateToScope(innerScope);
-            // this directive create a isolated scope, so i'm going to use innerScope.$$childTail to get access to this scope
-            var isolatedScope = innerScope.$$childTail;                    
             var $input = element.find('input').eq(0);
             var value = 'Olga Tagnon';      
             $input.val(value);
@@ -82,7 +80,7 @@ describe('directiveA', function () {
             var count = element.find('li').length;
             
             // Trigger submit using Enter key
-            isolatedScope.onSubmit({
+            element.isolateScope().onSubmit({
                 which: 13,
                 preventDefault: function() {},
                 target: $input[0]
@@ -98,14 +96,14 @@ describe('directiveA', function () {
         it('should add a the item in the end of the list after submit', function () {    
             
             var element = linkTemplateToScope(innerScope);
-            // this directive create a isolated scope, so i'm going to use innerScope.$$childTail to get access to this scope
-            var isolatedScope = innerScope.$$childTail;
+            // this directive create a isolated scope, you could use innerScope.$$childTail to get it... but element has a function for it
+            //var isolatedScope = innerScope.$$childTail;
             var $input = element.find('input').eq(0);
             var value = 'Olga Tagnon';      
             $input.val(value);
             
             // Trigger submit using Enter key
-            isolatedScope.onSubmit({
+            element.isolateScope().onSubmit({
                 which: 13,
                 preventDefault: function() {},
                 target: $input[0]
