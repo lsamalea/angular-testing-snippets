@@ -3,7 +3,6 @@ describe('directiveA', function () {
     var innerScope,
         parentScope,       
         directiveUse = "<directive-a title1='{{title1}}' title2='{{title2}}' names='{{names}}'></directive-a>", // 
-        $input, // function
         linkTemplateToScope ; // function
 
     beforeEach(module('directives'));
@@ -25,9 +24,6 @@ describe('directiveA', function () {
         innerScope = parentScope.$new();
         
         // functions
-        $input = function() {
-            return element.find('input').eq(0);
-        }
         
         linkTemplateToScope = function(scope){
             var el = tpl(scope); //el == element
@@ -77,17 +73,22 @@ describe('directiveA', function () {
         it('should add a new item after submit', function () {    
             
             var element = linkTemplateToScope(innerScope);
-                    
-            $input().val('Olga Tagnon');
+            // this directive create a isolated scope, so i'm going to use innerScope.$$childTail to get access to this scope
+            var isolatedScope = innerScope.$$childTail;                    
+            var $input = element.find('input').eq(0);
+            var value = 'Olga Tagnon';      
+            $input.val(value);
             
             var count = element.find('li').length;
             
             // Trigger submit using Enter key
-            innerScope.onSubmit({
+            isolatedScope.onSubmit({
                 which: 13,
                 preventDefault: function() {},
-                target: $input()[0]
+                target: $input[0]
             });
+            
+            innerScope.$digest();
             
             var newCount = element.find('li').length;
 
@@ -97,19 +98,24 @@ describe('directiveA', function () {
         it('should add a the item in the end of the list after submit', function () {    
             
             var element = linkTemplateToScope(innerScope);
-            var value = 'Olga Tagnon';        
-            $input().val(value);
+            // this directive create a isolated scope, so i'm going to use innerScope.$$childTail to get access to this scope
+            var isolatedScope = innerScope.$$childTail;
+            var $input = element.find('input').eq(0);
+            var value = 'Olga Tagnon';      
+            $input.val(value);
             
             // Trigger submit using Enter key
-            innerScope.onSubmit({
+            isolatedScope.onSubmit({
                 which: 13,
                 preventDefault: function() {},
-                target: $input()[0]
+                target: $input[0]
             });
+            
+            innerScope.$digest(); 
             
             var li = element.find('li').last();
 
-            expect(li.val()).toBe(value);
+            expect(li.html()).toBe(value);
         });
         
     });

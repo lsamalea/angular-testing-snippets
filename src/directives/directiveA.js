@@ -2,8 +2,8 @@ angular.module('directives')
     .directive('directiveA', function() {
         return {
             restrict: 'E',
-            // templateUrl: 'templates/directiveA.template.html',
-            template: '<h1>{{title1}}</h1><div class="ce">    <h2>{{title2}}</h2>         <ul>        <li ng-repeat="name in names">{{name}}</li>    </ul></div>',
+            //templateUrl: 'templates/directiveA.template.html',
+            template: '<h1>{{title1}}</h1><div class="ce">    <h2>{{title2}}</h2>         <ul>        <li ng-repeat="name in names">{{name}}</li>    </ul> <input type="text" ngkeypress="onSubmit($event)"></div>',
             scope:{
                 title1:"@",
                 title2:"@",
